@@ -244,7 +244,7 @@ with their own ids that the agent references through `tool_ids`:
 agent/
   agents.json              CLI registry
   tools.json               CLI registry
-  agent_configs/agendador.json
+  agent_configs/appointment_scheduler.json
   tool_configs/check_availability.json
   tool_configs/book_appointment.json
   tool_configs/show_booking_summary.json

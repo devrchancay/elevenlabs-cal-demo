@@ -66,7 +66,7 @@ export async function startVoiceSession(options: StartOptions): Promise<VoiceSes
     agentId: options.agentId,
     connectionType: 'webrtc',
     // The agent is told what day it is. It never works this out itself.
-    dynamicVariables: { fecha_actual: options.currentDateTime },
+    dynamicVariables: { current_datetime: options.currentDateTime },
     clientTools: {
       // The name has to match agent/tool_configs/show_booking_summary.json
       // exactly, including case.

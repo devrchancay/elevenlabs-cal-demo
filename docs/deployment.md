@@ -154,7 +154,7 @@ your `.env`: the simulation script and the landing page both use it.
 
 ### Later changes
 
-Edit `agent/agent_configs/agendador.json` and run `elevenlabs agents push`.
+Edit `agent/agent_configs/appointment_scheduler.json` and run `elevenlabs agents push`.
 **Do not** touch the dashboard: anything changed there is lost on the next push.
 
 ---

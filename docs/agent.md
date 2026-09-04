@@ -17,14 +17,14 @@ their own ids, and the agent references them by `tool_ids`:
 
 ```
 agent/
-  agents.json                          CLI registry: agent id ↔ config file
-  tools.json                           CLI registry: tool ids ↔ config files
+  agents.json                        CLI registry: agent id ↔ config file
+  tools.json                         CLI registry: tool ids ↔ config files
   agent_configs/
-    agendador.json                     the agent: prompt, ASR, TTS, turn-taking
+    appointment_scheduler.json       the agent: prompt, ASR, TTS, turn-taking
   tool_configs/
-    check_availability.json            webhook tool → POST /tools/availability
-    book_appointment.json              webhook tool → POST /tools/book
-    show_booking_summary.json          client tool  → runs in the browser
+    check_availability.json          webhook tool → POST /tools/availability
+    book_appointment.json            webhook tool → POST /tools/book
+    show_booking_summary.json        client tool  → runs in the browser
 ```
 
 Applying a change:
@@ -67,12 +67,17 @@ and the first token is instant:
 
 ## Dynamic variables
 
-`{{fecha_actual}}` is injected when the conversation starts. **The LLM is never
+`{{current_datetime}}` is injected when the conversation starts. **The LLM is never
 told to work out what day it is.**
 
 The landing page fetches it from `GET /agent/context` and passes it to the
 widget. It is computed on the server on purpose: the visitor's browser clock may
 be in a different timezone, and the agent has to reason about the *business* day.
+
+The name is a contract between two deploys: the page sends
+`dynamicVariables: { current_datetime }` and the prompt reads
+`{{current_datetime}}`. Renaming it means pushing the agent and deploying the
+page together, or the variable silently fails to resolve mid-call.
 
 `bookingKey` is wired to the built-in `system__conversation_id` in both tool
 schemas, so idempotency and per-conversation option scoping are automatic rather
@@ -82,13 +87,13 @@ than something the model has to remember.
 
 ## The system prompt
 
-Full text in `agent/agent_configs/agendador.json`. It is written in Spanish
+Full text in `agent/agent_configs/appointment_scheduler.json`. It is written in Spanish
 because it shapes speech reaching a person. The structure:
 
 1. **Role and register.** Assistant for a business in Ecuador, neutral Latin
    American Spanish, informal *tú*, one job only: booking 30-minute
    appointments.
-2. **Context.** `{{fecha_actual}}` is declared the single source of truth about
+2. **Context.** `{{current_datetime}}` is declared the single source of truth about
    today's date.
 3. **How to speak.** Short sentences, one idea each. No lists, bullets,
    asterisks or emoji — everything is read out loud. No echoing the caller, no
@@ -104,7 +109,7 @@ because it shapes speech reaching a person. The structure:
 | Step | What happens |
 |---|---|
 | 1 | Listen — the first message already greeted. |
-| 2 | Pin down a concrete date. Vague ("next week") gets a follow-up question. Relative ("tomorrow", "Tuesday") is resolved against `{{fecha_actual}}`. |
+| 2 | Pin down a concrete date. Vague ("next week") gets a follow-up question. Relative ("tomorrow", "Tuesday") is resolved against `{{current_datetime}}`. |
 | 3 | Call `check_availability` with `YYYY-MM-DD` and the requested part of day. |
 | 4 | Read `spokenSummary` **verbatim**. No rephrasing, no added times, no reordering. If `found` is false, offer another date instead of inventing slots. |
 | 5 | Wait for a choice. Changing dates loops back to step 3; changing one's mind is normal and is not commented on. |
@@ -199,9 +204,9 @@ automatically — these are the assertions that matter for a booking agent:
 
 | Id | Passes when |
 |---|---|
-| `cita_agendada` | `book_appointment` was called and returned `booked: true`. |
-| `confirmo_antes_de_reservar` | The agent read back time, name and email, asked for confirmation, and got an explicit yes **before** booking. |
-| `no_invento_horarios` | Every time the agent mentioned came from a `check_availability` response. |
+| `appointment_booked` | `book_appointment` was called and returned `booked: true`. |
+| `confirmed_before_booking` | The agent read back time, name and email, asked for confirmation, and got an explicit yes **before** booking. |
+| `did_not_invent_slots` | Every time the agent mentioned came from a `check_availability` response. |
 
 > The exact schema of this block is the one part of the configuration that is
 > not publicly documented. If `elevenlabs agents push` rejects it, remove the

@@ -28,7 +28,7 @@ Read the documentation before implementing anything:
 5. **The server listens on `0.0.0.0` and `process.env.PORT`.** Railway injects
    the port; a hardcoded `localhost` means the deploy never passes the health
    check.
-6. **Agent changes are made by editing `agent/agent_configs/agendador.json`** and
+6. **Agent changes are made by editing `agent/agent_configs/appointment_scheduler.json`** and
    pushing with the CLI, not by clicking in the dashboard. Dashboard edits are
    lost on the next push.
 7. **All date arithmetic lives in `src/lib/time.ts`.** No other file converts

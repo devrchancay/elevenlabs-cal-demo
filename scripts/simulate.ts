@@ -445,7 +445,7 @@ if (!jsonOnly) {
     console.log(
       colors.err(
         `${failedCount} of ${summary.length} scenarios failed. ` +
-          'Adjust the system prompt in agent/agent_configs/agendador.json and push again.\n',
+          'Adjust the system prompt in agent/agent_configs/appointment_scheduler.json and push again.\n',
       ),
     );
     process.exit(1);

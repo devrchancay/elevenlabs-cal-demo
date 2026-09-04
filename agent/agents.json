@@ -1,7 +1,7 @@
 {
     "agents": [
         {
-            "config": "agent_configs/agendador.json",
+            "config": "agent_configs/appointment_scheduler.json",
             "id": "agent_2501m1pvtn24ebeac8cz966vheyx",
             "branch_id": "agtbrch_1401m1pvtpf3fh6rfjgybeeq3myv",
             "version_id": "agtvrsn_4801m1q9cpa8fp59b8brscdkr3mk",

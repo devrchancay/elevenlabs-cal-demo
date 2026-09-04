@@ -60,14 +60,14 @@ anything changed there is overwritten by the next push.
 
 ```
 agent/
-  agents.json                  CLI registry
-  tools.json                   CLI registry
+  agents.json                        CLI registry
+  tools.json                         CLI registry
   agent_configs/
-    agendador.json             prompt, ASR, TTS, turn-taking, evaluation
+    appointment_scheduler.json       prompt, ASR, TTS, turn-taking, evaluation
   tool_configs/
-    check_availability.json    webhook tool → POST /tools/availability
-    book_appointment.json      webhook tool → POST /tools/book
-    show_booking_summary.json  client tool  → runs in the browser
+    check_availability.json          webhook tool → POST /tools/availability
+    book_appointment.json            webhook tool → POST /tools/book
+    show_booking_summary.json        client tool  → runs in the browser
 ```
 
 **What it does.** Greets, pins down a concrete date, calls

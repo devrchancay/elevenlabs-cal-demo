@@ -24,7 +24,7 @@ import { ROOT, colors, loadDotEnv, requireEnv } from './lib/config.js';
 loadDotEnv();
 
 const AGENT_DIR = resolve(ROOT, 'agent');
-const AGENT_CONFIG = 'agent_configs/agendador.json';
+const AGENT_CONFIG = 'agent_configs/appointment_scheduler.json';
 const API = 'https://api.elevenlabs.io/v1';
 
 /** Which backend route each tool points at. */
