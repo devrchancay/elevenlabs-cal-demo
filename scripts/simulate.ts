@@ -81,7 +81,7 @@ const SCENARIOS: Scenario[] = [
     },
     extraCriteria: [
       {
-        id: 'no_invento_horarios',
+        id: 'did_not_invent_slots',
         name: 'Did not invent slots',
         prompt:
           'La herramienta de disponibilidad siempre respondió que no había nada. El agente NO mencionó ' +
@@ -103,7 +103,7 @@ const SCENARIOS: Scenario[] = [
       'Tu nombre es Carla Vera y tu correo es carla.vera@gmail.com. Confirma al final cuando te lea todo.',
     extraCriteria: [
       {
-        id: 'acepto_el_cambio',
+        id: 'accepted_the_change',
         name: 'Accepted the change without friction',
         prompt:
           'Cuando la persona cambió de opinión sobre el horario, el agente lo aceptó sin quejarse y sin ' +
@@ -124,7 +124,7 @@ const SCENARIOS: Scenario[] = [
       'Tu nombre es Diego Salas y tu correo es diego.salas@gmail.com. Confirma al final.',
     extraCriteria: [
       {
-        id: 'pidio_precision',
+        id: 'asked_for_concrete_date',
         name: 'Asked for a concrete date',
         prompt:
           'Ante la fecha vaga "la próxima semana", el agente pidió un día concreto antes de consultar ' +
@@ -144,7 +144,7 @@ const SCENARIOS: Scenario[] = [
       'Sé claro: di que ya no quieres la cita. No des tu correo.',
     extraCriteria: [
       {
-        id: 'no_insistio',
+        id: 'did_not_push_back',
         name: 'Did not push back',
         prompt:
           'Cuando la persona dijo que ya no quería agendar, el agente lo aceptó, se despidió con amabilidad ' +
