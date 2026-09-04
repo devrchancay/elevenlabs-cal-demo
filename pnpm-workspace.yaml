@@ -1,0 +1,8 @@
+packages:
+  - 'web'
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@elevenlabs/convai-widget-embed@0.18.0'

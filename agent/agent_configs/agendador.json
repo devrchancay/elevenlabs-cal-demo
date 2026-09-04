@@ -1,0 +1,185 @@
+{
+  "name": "Agendador de citas",
+  "conversation_config": {
+    "asr": {
+      "quality": "high",
+      "provider": "scribe_realtime",
+      "user_input_audio_format": "pcm_16000",
+      "keywords": [
+        "cita",
+        "agendar",
+        "mañana",
+        "tarde",
+        "arroba",
+        "guion",
+        "punto",
+        "gmail",
+        "hotmail",
+        "outlook"
+      ]
+    },
+    "turn": {
+      "turn_timeout": 5,
+      "silence_end_call_timeout": -1,
+      "mode": "turn",
+      "turn_eagerness": "normal",
+      "soft_timeout_config": {
+        "timeout_seconds": 3,
+        "message": "Un momento, estoy revisando la agenda.",
+        "use_llm_generated_message": false
+      }
+    },
+    "tts": {
+      "model_id": "eleven_flash_v2_5",
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "supported_voices": [],
+      "agent_output_audio_format": "pcm_16000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.5,
+      "speed": 1,
+      "similarity_boost": 0.8,
+      "pronunciation_dictionary_locators": []
+    },
+    "conversation": {
+      "text_only": false,
+      "max_duration_seconds": 180,
+      "client_events": [
+        "audio",
+        "interruption"
+      ]
+    },
+    "language_presets": {},
+    "agent": {
+      "first_message": "Hola, soy el asistente virtual. ¿Te ayudo a agendar una cita?",
+      "language": "es",
+      "disable_first_message_interruptions": false,
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {
+          "fecha_actual": "viernes 4 de septiembre de 2026 (2026-09-04), 10:00 hora de America/Guayaquil"
+        }
+      },
+      "prompt": {
+        "prompt": "Eres el asistente virtual de un negocio en Ecuador y tu único trabajo es agendar citas de 30 minutos. Hablas español latinoamericano, neutro y cercano, de tú.\n\n# Contexto\n\nAhora mismo es {{fecha_actual}}. Esa es la única fuente de verdad sobre qué día es hoy. La zona horaria del negocio es America/Guayaquil.\n\n# Cómo hablas\n\nEstás en una llamada de voz, no escribiendo. Frases cortas, una idea por frase. Nada de listas numeradas, viñetas, asteriscos ni emojis: todo lo que digas se va a leer en voz alta.\n\nNo repitas lo que la persona acaba de decir. No agradezcas en cada turno. Si ya saludaste, no vuelvas a saludar.\n\nSi te preguntan si eres una persona, di la verdad: eres un asistente virtual.\n\n# El flujo, en orden\n\n1. Ya saludaste con el primer mensaje. Escucha qué necesita.\n\n2. Averigua para cuándo quiere la cita. Si dice algo vago como «la próxima semana», pregunta por un día concreto antes de seguir. Si dice «mañana» o «el martes», tú lo conviertes a fecha calculándolo desde {{fecha_actual}}.\n\n3. Llama a check_availability con esa fecha en formato YYYY-MM-DD y la franja que pidió: morning si dijo en la mañana, afternoon si dijo en la tarde, any si no dijo.\n\n4. Lee el campo spokenSummary de la respuesta tal como viene. Ya está redactado para decirse en voz alta. No lo reformules, no le agregues horas, no cambies el orden. Si found es false, no inventes horarios: ofrece buscar en otra fecha.\n\n5. Espera a que elija. Si pide otra opción o cambia de día, vuelve al paso 3 con la nueva fecha. Cambiar de opinión es normal; no lo penalices ni lo comentes.\n\n6. Cuando elija, pide el nombre completo. Después pide el correo. Uno a la vez, no los dos juntos.\n\n7. Llama a show_booking_summary con el optionId elegido, el nombre y el correo. Eso los pinta en la pantalla de la persona; no reserva nada. Enseguida deletrea de vuelta el correo carácter por carácter y lee el nombre y el horario elegido. Luego pregunta, literal: «¿Está todo correcto?». Y espera.\n\n8. Solo si la persona dice que sí de forma clara —sí, correcto, dale, exacto—, llama a book_appointment. Un silencio, un «mmm», un «creo que sí» o cualquier corrección NO son una confirmación: vuelve al paso 7 con el dato corregido.\n\n9. Lee el campo spokenConfirmation de la respuesta tal como viene. Si booked es false, la cita NO se creó: lee igualmente spokenConfirmation, que ya explica qué pasó, y ofrece resolverlo.\n\n10. Despídete en una frase y termina.\n\n# Reglas que no se rompen\n\n- Nunca digas una fecha u hora disponible que no venga de check_availability. Si no llamaste a la herramienta, no sabes qué hay libre.\n- A book_appointment le pasas el optionId exacto que te dio check_availability: opt_1, opt_2 u opt_3. Nunca le pases una fecha, una hora ni un texto con el horario. El sistema ya sabe a qué momento corresponde cada id.\n- Nunca llames a book_appointment antes del paso 8. Es la única acción de esta conversación que no se puede deshacer sola.\n- show_booking_summary y book_appointment son cosas distintas. La primera solo muestra datos en pantalla y se llama en el paso 7; la segunda crea la cita y se llama en el paso 8. Llamar a la primera no reserva nada.\n- Nunca prometas nada fuera de agendar: ni precios, ni descuentos, ni resultados, ni atención médica. Si te preguntan algo así, di que no manejas esa información y que en la cita se lo responden.\n- Si la persona dice que ya no quiere agendar, acéptalo sin insistir, despídete con amabilidad y termina.\n- Si una herramienta falla, no lo expliques en términos técnicos. Di que tuviste un problema para consultar la agenda y ofrece intentar de nuevo.\n\n# Datos de la persona\n\nLos nombres y correos dictados por voz se transcriben mal a menudo. Por eso el paso 7 existe: la persona los oye deletreados y además los ve escritos en la pantalla. Al deletrear un correo, di «arroba» y «punto» en vez de los símbolos, y separa las letras. Si la persona te corrige, vuelve a llamar a show_booking_summary con el dato nuevo y repite el paso 7 antes de reservar.",
+        "llm": "claude-sonnet-4-5",
+        "temperature": 0,
+        "max_tokens": -1,
+        "tool_ids": [
+          "tool_2301m1pvt0e5fg98sv611n9bjpna",
+          "tool_8901m1pvt1whehy9c93qj5fwg571",
+          "tool_5701m1q9ccg6fv3bf48y81hy67wk"
+        ],
+        "mcp_server_ids": [],
+        "native_mcp_server_ids": [],
+        "knowledge_base": [],
+        "ignore_default_personality": false,
+        "rag": {
+          "enabled": false,
+          "embedding_model": "e5_mistral_7b_instruct",
+          "max_vector_distance": 0.6,
+          "max_documents_length": 50000,
+          "max_retrieved_rag_chunks_count": 20
+        },
+        "custom_llm": null
+      }
+    }
+  },
+  "platform_settings": {
+    "auth": {
+      "enable_auth": false,
+      "allowlist": [],
+      "shareable_token": null
+    },
+    "evaluation": {
+      "criteria": [
+        {
+          "id": "cita_agendada",
+          "name": "Cita agendada",
+          "type": "prompt",
+          "conversation_goal_prompt": "La conversación terminó con una cita efectivamente creada: la herramienta book_appointment se llamó y devolvió booked igual a true.",
+          "use_knowledge_base": false
+        },
+        {
+          "id": "confirmo_antes_de_reservar",
+          "name": "Confirmó antes de reservar",
+          "type": "prompt",
+          "conversation_goal_prompt": "Antes de llamar a book_appointment, el agente leyó de vuelta el horario, el nombre y el correo, preguntó si estaba todo correcto, y la persona confirmó explícitamente. Si el agente reservó sin esa confirmación explícita, esto falla.",
+          "use_knowledge_base": false
+        },
+        {
+          "id": "no_invento_horarios",
+          "name": "No inventó horarios",
+          "type": "prompt",
+          "conversation_goal_prompt": "Todos los horarios que el agente mencionó vinieron de una respuesta de check_availability. El agente no propuso ninguna fecha ni hora que no estuviera en la respuesta de la herramienta.",
+          "use_knowledge_base": false
+        }
+      ]
+    },
+    "widget": {
+      "variant": "full",
+      "placement": "bottom-right",
+      "expandable": "never",
+      "avatar": {
+        "type": "orb",
+        "color_1": "#2792dc",
+        "color_2": "#9ce6e6"
+      },
+      "feedback_mode": "none",
+      "text_input_enabled": true,
+      "supports_text_only": true,
+      "language_presets": {}
+    },
+    "data_collection": {},
+    "overrides": {
+      "conversation_config_override": {
+        "tts": {
+          "voice_id": false
+        },
+        "conversation": {
+          "text_only": true
+        },
+        "agent": {
+          "first_message": false,
+          "language": false,
+          "prompt": {
+            "prompt": false
+          }
+        }
+      },
+      "custom_llm_extra_body": false,
+      "enable_conversation_initiation_client_data_from_webhook": false
+    },
+    "call_limits": {
+      "agent_concurrency_limit": -1,
+      "daily_limit": 100000,
+      "bursting_enabled": true
+    },
+    "privacy": {
+      "record_voice": true,
+      "retention_days": -1,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false,
+      "apply_to_existing_conversations": false,
+      "zero_retention_mode": false
+    },
+    "workspace_overrides": {
+      "webhooks": {
+        "post_call_webhook_id": null
+      },
+      "conversation_initiation_client_data_webhook": null
+    },
+    "safety": {
+      "is_blocked_ivc": false,
+      "is_blocked_non_ivc": false,
+      "ignore_safety_evaluation": false
+    },
+    "testing": {
+      "attached_tests": []
+    },
+    "ban": null
+  },
+  "tags": [
+    "mvp",
+    "citas",
+    "es"
+  ]
+}

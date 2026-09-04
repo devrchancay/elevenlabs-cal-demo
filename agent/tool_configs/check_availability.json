@@ -1,0 +1,47 @@
+{
+  "type": "webhook",
+  "name": "check_availability",
+  "description": "Consulta los horarios disponibles para una fecha. Devuelve hasta 3 opciones ya redactadas para leer en voz alta. Úsala siempre antes de proponer un horario: nunca inventes disponibilidad. Si el día pedido está lleno, la herramienta busca sola en los días siguientes y lo indica en spokenSummary.",
+  "response_timeout_secs": 20,
+  "interruption_mode": "allow",
+  "pre_tool_speech": "auto",
+  "execution_mode": "immediate",
+  "tool_error_handling_mode": "auto",
+  "assignments": [],
+  "api_schema": {
+    "url": "https://identifying-creature-les-inbox.trycloudflare.com/tools/availability",
+    "method": "POST",
+    "content_type": "application/json",
+    "request_headers": {
+      "Authorization": {
+        "secret_id": "YvrtbpWPIqneImCL8LVk"
+      }
+    },
+    "request_body_schema": {
+      "type": "object",
+      "description": "Fecha y franja horaria que pidió la persona.",
+      "required": [
+        "date"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Fecha en formato YYYY-MM-DD, por ejemplo 2026-09-08. Calcúlala a partir de {{fecha_actual}}. Si la persona dijo 'mañana' o 'el martes', conviértelo a esa fecha exacta."
+        },
+        "partOfDay": {
+          "type": "string",
+          "description": "Franja que pidió la persona: 'morning' si dijo mañana, 'afternoon' si dijo tarde, 'any' si no especificó.",
+          "enum": [
+            "morning",
+            "afternoon",
+            "any"
+          ]
+        },
+        "bookingKey": {
+          "type": "string",
+          "dynamic_variable": "system__conversation_id"
+        }
+      }
+    }
+  }
+}

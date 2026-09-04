@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "data": {
+    "id": 987654,
+    "uid": "rW8kZ3qP2mNvY7bLxT4dCe",
+    "title": "Consulta de 30 minutos entre Negocio y Ramón",
+    "description": "",
+    "hosts": [
+      {
+        "id": 42,
+        "name": "Negocio",
+        "email": "negocio@example.com",
+        "username": "negocio",
+        "timeZone": "America/Guayaquil"
+      }
+    ],
+    "status": "accepted",
+    "start": "2026-09-08T15:00:00.000Z",
+    "end": "2026-09-08T15:30:00.000Z",
+    "duration": 30,
+    "eventTypeId": 123456,
+    "eventType": {
+      "id": 123456,
+      "slug": "consulta-30"
+    },
+    "location": "integrations:daily",
+    "absentHost": false,
+    "createdAt": "2026-09-04T15:05:00.000Z",
+    "updatedAt": "2026-09-04T15:05:00.000Z",
+    "attendees": [
+      {
+        "name": "Ramón Chancay",
+        "email": "ramon@example.com",
+        "timeZone": "America/Guayaquil",
+        "language": "es",
+        "absent": false
+      }
+    ],
+    "bookingFieldsResponses": {
+      "name": "Ramón Chancay",
+      "email": "ramon@example.com"
+    },
+    "metadata": {
+      "bookingKey": "conv_abc123"
+    }
+  }
+}

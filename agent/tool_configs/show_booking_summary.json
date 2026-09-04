@@ -1,0 +1,24 @@
+{
+  "type": "client",
+  "name": "show_booking_summary",
+  "description": "Muestra en la pantalla de la persona el horario elegido, su nombre y su correo, para que los vea escritos mientras se los lees de vuelta. Llámala en el paso de confirmación, justo ANTES de preguntar si está todo correcto. No reserva nada y no tiene efecto sobre la agenda: solo pinta los datos en la página. Si la persona te corrige algo, vuelve a llamarla con el dato corregido.",
+  "expects_response": false,
+  "parameters": {
+    "type": "object",
+    "required": ["optionId", "name", "email"],
+    "properties": {
+      "optionId": {
+        "type": "string",
+        "description": "El id exacto de la opción que eligió la persona, tal como vino de check_availability: opt_1, opt_2 u opt_3."
+      },
+      "name": {
+        "type": "string",
+        "description": "Nombre completo de la persona, tal como lo dictó."
+      },
+      "email": {
+        "type": "string",
+        "description": "Correo electrónico de la persona, en minúsculas y sin espacios. Por ejemplo: ana.perez@gmail.com"
+      }
+    }
+  }
+}

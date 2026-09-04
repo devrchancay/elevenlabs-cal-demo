@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+/*
+ * The palette is defined once here as Tailwind theme variables, so the markup
+ * can stay utility-only and light and dark stay in step.
+ */
+@theme {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --color-brand-500: #2792dc;
+  --color-brand-300: #9ce6e6;
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+}

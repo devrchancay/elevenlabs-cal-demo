@@ -1,0 +1,48 @@
+{
+  "type": "webhook",
+  "name": "book_appointment",
+  "description": "Reserva la cita. Llámala SOLO después de que la persona confirmó explícitamente el horario, su nombre y su correo leídos de vuelta. Recibe el id de la opción elegida, nunca una fecha ni una hora. Devuelve spokenConfirmation: léelo tal cual.",
+  "response_timeout_secs": 25,
+  "interruption_mode": "disable_during_tool",
+  "pre_tool_speech": "auto",
+  "execution_mode": "immediate",
+  "tool_error_handling_mode": "auto",
+  "assignments": [],
+  "api_schema": {
+    "url": "https://identifying-creature-les-inbox.trycloudflare.com/tools/book",
+    "method": "POST",
+    "content_type": "application/json",
+    "request_headers": {
+      "Authorization": {
+        "secret_id": "YvrtbpWPIqneImCL8LVk"
+      }
+    },
+    "request_body_schema": {
+      "type": "object",
+      "description": "Datos confirmados por la persona para crear la cita.",
+      "required": [
+        "optionId",
+        "name",
+        "email"
+      ],
+      "properties": {
+        "optionId": {
+          "type": "string",
+          "description": "El id exacto de la opción que eligió la persona, tal como vino de check_availability: opt_1, opt_2 u opt_3. Nunca una fecha ni una hora."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre completo de la persona, tal como lo dictó."
+        },
+        "email": {
+          "type": "string",
+          "description": "Correo electrónico de la persona, en minúsculas y sin espacios. Por ejemplo: ana.perez@gmail.com"
+        },
+        "bookingKey": {
+          "type": "string",
+          "dynamic_variable": "system__conversation_id"
+        }
+      }
+    }
+  }
+}

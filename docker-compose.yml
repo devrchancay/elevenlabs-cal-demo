@@ -1,0 +1,62 @@
+# Runs the whole thing locally the way it runs in production: the same backend
+# image Railway builds, and the landing page as a static build behind nginx.
+#
+#   cp .env.example .env      # and fill it in
+#   docker compose up --build
+#
+#   backend  http://localhost:3000/health
+#   landing  http://localhost:8080
+#
+# For day-to-day development prefer `pnpm dev` and `pnpm web:dev`: they give you
+# hot reload, which containers here deliberately do not. This file is for
+# checking that what gets deployed actually works.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: elevenlabs-agent-api:local
+    env_file:
+      # If .env is missing the container starts anyway and dies with its own
+      # message naming the variable that is absent, which is more useful than a
+      # compose error.
+      - path: .env
+        required: false
+    environment:
+      # Fixed inside the container; the host port is mapped below. Railway
+      # injects its own PORT in production.
+      PORT: 3000
+      HOST: 0.0.0.0
+      # Points at the volume, so the conversation log survives a restart.
+      CONVERSATIONS_LOG_PATH: /app/data/conversations.json
+    ports:
+      - '3000:3000'
+    volumes:
+      - api-data:/app/data
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        # Vite inlines these at build time, so `docker compose up` has to
+        # rebuild for a change to take effect. Compose reads them from the root
+        # .env, or from the shell:
+        #
+        #   VITE_ELEVENLABS_AGENT_ID=agent_xxx docker compose up --build
+        VITE_ELEVENLABS_AGENT_ID: ${VITE_ELEVENLABS_AGENT_ID:-}
+        # The browser resolves this address, not the compose network, so it
+        # cannot be `http://api:3000`.
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:3000}
+    image: elevenlabs-agent-web:local
+    ports:
+      - '8080:8080'
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  api-data:

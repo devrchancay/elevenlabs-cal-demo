@@ -1,0 +1,29 @@
+# Applies to both build contexts, since the web image also builds from the
+# repository root (it needs the workspace lockfile to install reproducibly).
+
+**/node_modules
+**/dist
+**/coverage
+data
+
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vscode
+.idea
+
+# Neither image needs these: the agent config is applied with the ElevenLabs
+# CLI, and the scripts run from a developer machine.
+agent
+scripts
+
+**/*.test.ts
+src/test
+README.md
+CLAUDE.md
+docs
+docker-compose.yml

@@ -1,0 +1,19 @@
+{
+    "tools": [
+        {
+            "type": "webhook",
+            "config": "tool_configs/check_availability.json",
+            "id": "tool_2301m1pvt0e5fg98sv611n9bjpna"
+        },
+        {
+            "type": "webhook",
+            "config": "tool_configs/book_appointment.json",
+            "id": "tool_8901m1pvt1whehy9c93qj5fwg571"
+        },
+        {
+            "type": "client",
+            "config": "tool_configs/show_booking_summary.json",
+            "id": "tool_5701m1q9ccg6fv3bf48y81hy67wk"
+        }
+    ]
+}
