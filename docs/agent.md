@@ -217,25 +217,25 @@ prompt iteration happens in text.
 
 ```bash
 pnpm simulate                    # all six scenarios
-pnpm simulate feliz              # just one
+pnpm simulate happy-path         # just one
 ```
 
 | Scenario | What it exercises |
 |---|---|
-| `feliz` | Books for tomorrow afternoon, accepts the first option. |
-| `sin-disponibilidad` | Fully booked day; the agent must offer alternatives, not invent them. `check_availability` is mocked here. |
-| `cambio-de-opinion` | Accepts a time, then asks for another before confirming. |
-| `fecha-ambigua` | "Next week" — the agent must ask for a concrete date. |
-| `se-arrepiente` | Caller backs out; the agent must not push. |
-| `doble-confirmacion` | Confirms twice — must not produce two bookings. |
+| `happy-path` | Books for tomorrow afternoon, accepts the first option. |
+| `no-availability` | Fully booked day; the agent must offer alternatives, not invent them. `check_availability` is mocked here. |
+| `changes-mind` | Accepts a time, then asks for another before confirming. |
+| `ambiguous-date` | "Next week" — the agent must ask for a concrete date. |
+| `backs-out` | Caller backs out; the agent must not push. |
+| `double-confirmation` | Confirms twice — must not produce two bookings. |
 
 The harness does not just print transcripts. It asserts that
 `book_appointment` was always preceded by an explicit confirmation, that no time
 was mentioned that the tool did not return, and that confirming twice does not
 yield two different `bookingUid` values. It exits non-zero on failure.
 
-Every scenario except `sin-disponibilidad` hits the real backend, which is the
-only way to demonstrate the idempotency of `doble-confirmacion`.
+Every scenario except `no-availability` hits the real backend, which is the
+only way to demonstrate the idempotency of `double-confirmation`.
 
 > ElevenLabs has marked the Simulate Conversations endpoint as deprecated in
 > favour of `/v1/convai/agent-testing`. It still works.

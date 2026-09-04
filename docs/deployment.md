@@ -167,7 +167,7 @@ iteration happens in text.
 
 ```bash
 pnpm simulate                    # all six scenarios
-pnpm simulate feliz              # just one
+pnpm simulate happy-path         # just one
 ```
 
 The script checks what the eye cannot:

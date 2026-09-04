@@ -5,9 +5,9 @@
  * minutes a month and more cannot be bought, so all system-prompt iteration
  * happens here and voice is saved for what can only be caught by listening.
  *
- *   pnpm simulate              # all six scenarios
- *   pnpm simulate feliz        # a single one, by key
- *   pnpm simulate -- --json    # dump the raw result
+ *   pnpm simulate                   # all six scenarios
+ *   pnpm simulate happy-path        # a single one, by key
+ *   pnpm simulate -- --json         # dump the raw result
  *
  * Note: ElevenLabs marked this endpoint deprecated in favour of
  * /v1/convai/agent-testing. It still works and it is what the plan asks for; if
@@ -56,7 +56,7 @@ const NO_AVAILABILITY = JSON.stringify({
 
 const SCENARIOS: Scenario[] = [
   {
-    key: 'feliz',
+    key: 'happy-path',
     title: 'Happy path: asks for tomorrow afternoon and takes the first option',
     userPrompt:
       'Eres una persona ecuatoriana que llama para agendar una cita. Quieres que sea mañana en la tarde. ' +
@@ -70,7 +70,7 @@ const SCENARIOS: Scenario[] = [
     },
   },
   {
-    key: 'sin-disponibilidad',
+    key: 'no-availability',
     title: 'No availability: the requested day is full and the agent offers a way out',
     userPrompt:
       'Eres una persona que quiere una cita el martes de la próxima semana en la mañana. ' +
@@ -94,7 +94,7 @@ const SCENARIOS: Scenario[] = [
     },
   },
   {
-    key: 'cambio-de-opinion',
+    key: 'changes-mind',
     title: 'Changes their mind: accepts a slot then asks for another before confirming',
     userPrompt:
       'Eres una persona que quiere una cita para el próximo lunes. Cuando el asistente te ofrezca horarios, ' +
@@ -116,7 +116,7 @@ const SCENARIOS: Scenario[] = [
     },
   },
   {
-    key: 'fecha-ambigua',
+    key: 'ambiguous-date',
     title: 'Ambiguous relative date: "next week"',
     userPrompt:
       'Eres una persona que quiere una cita. Cuando te pregunten para cuándo, di solamente ' +
@@ -136,7 +136,7 @@ const SCENARIOS: Scenario[] = [
     },
   },
   {
-    key: 'se-arrepiente',
+    key: 'backs-out',
     title: 'Backs out: in the end they do not want to book',
     userPrompt:
       'Eres una persona que empieza preguntando por una cita para mañana, pero a mitad de la conversación ' +
@@ -156,7 +156,7 @@ const SCENARIOS: Scenario[] = [
     },
   },
   {
-    key: 'doble-confirmacion',
+    key: 'double-confirmation',
     title: 'Confirms twice: must not create two appointments',
     userPrompt:
       'Eres una persona que quiere una cita para mañana. Acepta el primer horario que te ofrezcan. ' +
