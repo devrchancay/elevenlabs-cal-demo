@@ -19,8 +19,11 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY web/package.json ./web/
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile --filter elevenlabs-agent-web
+# No `--mount=type=cache`: Railway requires the mount id to carry the service
+# id as a prefix (`id=s/<service id>-<target>`) and forbids variables inside it,
+# so there is no value that works both here and on a laptop. The layer cache
+# above already skips this step whenever the manifests are unchanged.
+RUN pnpm install --frozen-lockfile --filter elevenlabs-agent-web
 
 COPY web ./web
 

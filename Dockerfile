@@ -18,8 +18,11 @@ WORKDIR /app
 # `web`, but that is a static site with its own image and this one has no use
 # for its dependencies.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile --filter elevenlabs-agent-backend
+# No `--mount=type=cache`: Railway requires the mount id to carry the service
+# id as a prefix (`id=s/<service id>-<target>`) and forbids variables inside it,
+# so there is no value that works both here and on a laptop. The layer cache
+# above already skips this step whenever the manifests are unchanged.
+RUN pnpm install --frozen-lockfile --filter elevenlabs-agent-backend
 
 COPY tsconfig.json tsconfig.build.json ./
 COPY src ./src
@@ -36,8 +39,8 @@ RUN corepack enable
 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile --prod --filter elevenlabs-agent-backend
+# No cache mount here either, for the reason given in stage 1.
+RUN pnpm install --frozen-lockfile --prod --filter elevenlabs-agent-backend
 
 # ---------------------------------------------------------------------------
 # Stage 3 — final image: no pnpm, no TypeScript, no source
