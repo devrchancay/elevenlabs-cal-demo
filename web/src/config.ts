@@ -17,12 +17,30 @@ function trimTrailingSlash(url: string): string {
   return url.replace(/\/+$/, '');
 }
 
+/**
+ * Adds the scheme when it is missing.
+ *
+ * `elevenlabs-agent-web-production.up.railway.app` pasted into a hosting
+ * dashboard is not an absolute URL: `${backendUrl}/agent/context` turns it into
+ * a path relative to the page, the request goes to the static host instead of
+ * the backend, and the only symptom is a 404 on a URL with the two hosts glued
+ * together. Assume https, which is the only scheme the deployed page can use
+ * anyway.
+ *
+ * An empty value is left alone: it means "same origin", which is how the page
+ * runs behind a single reverse proxy.
+ */
+function withScheme(url: string): string {
+  if (url.length === 0 || /^[a-z][a-z0-9+.-]*:\/\//i.test(url)) return url;
+  return `https://${url}`;
+}
+
 export function readConfig(search: string = window.location.search): AppConfig {
   const params = new URLSearchParams(search);
 
   const agentId = (params.get('agent') ?? import.meta.env.VITE_ELEVENLABS_AGENT_ID ?? '').trim();
   const backendUrl = trimTrailingSlash(
-    (params.get('backend') ?? import.meta.env.VITE_BACKEND_URL ?? '').trim(),
+    withScheme((params.get('backend') ?? import.meta.env.VITE_BACKEND_URL ?? '').trim()),
   );
 
   return {
