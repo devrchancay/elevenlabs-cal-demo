@@ -210,12 +210,21 @@ async function runSimulation(
   agentId: string,
   scenario: Scenario,
 ): Promise<SimulationResponse> {
+  // A real call gets its system dynamic variables from the platform, but the
+  // simulation endpoint fills in none of them and rejects the request when a
+  // tool reads one. Both webhook tools send `system__conversation_id` as the
+  // `bookingKey`, which is the scope the backend deduplicates bookings by, so
+  // it has to be unique per run: reusing one would make the second scenario's
+  // booking collapse into the first one's.
+  const conversationId = `sim_${scenario.key}_${Date.now().toString(36)}`;
+
   const body: Record<string, unknown> = {
     simulation_specification: {
       simulated_user_config: {
         prompt: { prompt: scenario.userPrompt, llm: 'gpt-4o', temperature: 0.4 },
         language: 'es',
       },
+      dynamic_variables: { system__conversation_id: conversationId },
       ...(scenario.toolMocks ? { tool_mock_config: scenario.toolMocks } : {}),
     },
     new_turns_limit: 30,

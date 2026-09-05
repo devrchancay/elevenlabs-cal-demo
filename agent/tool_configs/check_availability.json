@@ -9,7 +9,7 @@
   "tool_error_handling_mode": "auto",
   "assignments": [],
   "api_schema": {
-    "url": "https://identifying-creature-les-inbox.trycloudflare.com/tools/availability",
+    "url": "https://elevenlabs-agent-web-production.up.railway.app/tools/availability",
     "method": "POST",
     "content_type": "application/json",
     "request_headers": {
