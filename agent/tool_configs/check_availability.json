@@ -1,7 +1,7 @@
 {
   "type": "webhook",
   "name": "check_availability",
-  "description": "Consulta los horarios disponibles para una fecha. Devuelve hasta 3 opciones ya redactadas para leer en voz alta. Úsala siempre antes de proponer un horario: nunca inventes disponibilidad. Si el día pedido está lleno, la herramienta busca sola en los días siguientes y lo indica en spokenSummary.",
+  "description": "Look up the available times for a date. Returns up to 3 options already phrased to be read out loud. Always use it before proposing a time: never invent availability. If the requested day is full, the tool searches the following days on its own and says so in spokenSummary.",
   "response_timeout_secs": 20,
   "interruption_mode": "allow",
   "pre_tool_speech": "auto",
@@ -19,18 +19,18 @@
     },
     "request_body_schema": {
       "type": "object",
-      "description": "Fecha y franja horaria que pidió la persona.",
+      "description": "The date and part of day the person asked for.",
       "required": [
         "date"
       ],
       "properties": {
         "date": {
           "type": "string",
-          "description": "Fecha en formato YYYY-MM-DD, por ejemplo 2026-09-08. Calcúlala a partir de {{current_datetime}}. Si la persona dijo 'mañana' o 'el martes', conviértelo a esa fecha exacta."
+          "description": "Date in YYYY-MM-DD format, for example 2026-09-08. Work it out from {{current_datetime}}. If the person said «mañana» or «el martes», convert it to that exact date."
         },
         "partOfDay": {
           "type": "string",
-          "description": "Franja que pidió la persona: 'morning' si dijo mañana, 'afternoon' si dijo tarde, 'any' si no especificó.",
+          "description": "The part of day the person asked for: 'morning' if they said «en la mañana», 'afternoon' if they said «en la tarde», 'any' if they did not specify.",
           "enum": [
             "morning",
             "afternoon",

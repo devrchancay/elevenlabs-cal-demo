@@ -1,7 +1,7 @@
 {
   "type": "client",
   "name": "show_booking_summary",
-  "description": "Muestra en la pantalla de la persona el horario elegido, su nombre y su correo, para que los vea escritos mientras se los lees de vuelta. Llámala en el paso de confirmación, justo ANTES de preguntar si está todo correcto. No reserva nada y no tiene efecto sobre la agenda: solo pinta los datos en la página. Si la persona te corrige algo, vuelve a llamarla con el dato corregido.",
+  "description": "Show the chosen time, the person's name and their email on their screen, so they see them written while you read them back. Call it at the confirmation step, right BEFORE asking whether everything is correct. It books nothing and has no effect on the calendar: it only draws the details on the page. If the person corrects something, call it again with the corrected detail.",
   "expects_response": false,
   "parameters": {
     "type": "object",
@@ -9,15 +9,15 @@
     "properties": {
       "optionId": {
         "type": "string",
-        "description": "El id exacto de la opción que eligió la persona, tal como vino de check_availability: opt_1, opt_2 u opt_3."
+        "description": "The exact id of the option the person chose, as it came from check_availability: opt_1, opt_2 or opt_3."
       },
       "name": {
         "type": "string",
-        "description": "Nombre completo de la persona, tal como lo dictó."
+        "description": "The person's full name, exactly as they dictated it."
       },
       "email": {
         "type": "string",
-        "description": "Correo electrónico de la persona, en minúsculas y sin espacios. Por ejemplo: ana.perez@gmail.com"
+        "description": "The person's email address, lowercase and without spaces. For example: ana.perez@gmail.com"
       }
     }
   }

@@ -1,7 +1,7 @@
 {
   "type": "webhook",
   "name": "book_appointment",
-  "description": "Reserva la cita. Llámala SOLO después de que la persona confirmó explícitamente el horario, su nombre y su correo leídos de vuelta. Recibe el id de la opción elegida, nunca una fecha ni una hora. Devuelve spokenConfirmation: léelo tal cual.",
+  "description": "Book the appointment. Call it ONLY after the person has explicitly confirmed the time, their name and their email read back to them. It takes the id of the chosen option, never a date or a time. Returns spokenConfirmation: read it exactly as it comes.",
   "response_timeout_secs": 25,
   "interruption_mode": "disable_during_tool",
   "pre_tool_speech": "auto",
@@ -19,7 +19,7 @@
     },
     "request_body_schema": {
       "type": "object",
-      "description": "Datos confirmados por la persona para crear la cita.",
+      "description": "The details the person confirmed, used to create the appointment.",
       "required": [
         "optionId",
         "name",
@@ -28,15 +28,15 @@
       "properties": {
         "optionId": {
           "type": "string",
-          "description": "El id exacto de la opción que eligió la persona, tal como vino de check_availability: opt_1, opt_2 u opt_3. Nunca una fecha ni una hora."
+          "description": "The exact id of the option the person chose, as it came from check_availability: opt_1, opt_2 or opt_3. Never a date and never a time."
         },
         "name": {
           "type": "string",
-          "description": "Nombre completo de la persona, tal como lo dictó."
+          "description": "The person's full name, exactly as they dictated it."
         },
         "email": {
           "type": "string",
-          "description": "Correo electrónico de la persona, en minúsculas y sin espacios. Por ejemplo: ana.perez@gmail.com"
+          "description": "The person's email address, lowercase and without spaces. For example: ana.perez@gmail.com"
         },
         "bookingKey": {
           "type": "string",

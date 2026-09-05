@@ -59,11 +59,12 @@ const SCENARIOS: Scenario[] = [
     key: 'happy-path',
     title: 'Happy path: asks for tomorrow afternoon and takes the first option',
     userPrompt:
-      'Eres una persona ecuatoriana que llama para agendar una cita. Quieres que sea mañana en la tarde. ' +
-      'Cuando el asistente te ofrezca horarios, acepta el primero que te diga. ' +
-      'Tu nombre es Ana Pérez y tu correo es ana.perez@gmail.com. ' +
-      'Cuando te lea los datos de vuelta y te pregunte si está todo correcto, di que sí claramente. ' +
-      'Hablas natural y breve, como en una llamada telefónica.',
+      'You are an Ecuadorian caller booking an appointment, and you speak Spanish. ' +
+      'You want it tomorrow afternoon. ' +
+      'When the assistant offers you times, accept the first one it says. ' +
+      'Your name is Ana Pérez and your email is ana.perez@gmail.com. ' +
+      'When it reads the details back and asks whether everything is correct, say yes clearly. ' +
+      'Speak naturally and briefly, the way people do on a phone call.',
     expect: {
       mustCall: ['check_availability', 'book_appointment'],
       requiresConfirmationBeforeBooking: true,
@@ -73,9 +74,9 @@ const SCENARIOS: Scenario[] = [
     key: 'no-availability',
     title: 'No availability: the requested day is full and the agent offers a way out',
     userPrompt:
-      'Eres una persona que quiere una cita el martes de la próxima semana en la mañana. ' +
-      'Si el asistente te dice que no hay nada, acepta buscar en otra fecha y propón el jueves. ' +
-      'Tu nombre es Luis Mora y tu correo es luis.mora@gmail.com.',
+      'You are a caller who wants an appointment next Tuesday morning, and you speak Spanish. ' +
+      'If the assistant says there is nothing, agree to look at another date and suggest Thursday. ' +
+      'Your name is Luis Mora and your email is luis.mora@gmail.com.',
     toolMocks: {
       check_availability: { default_return_value: NO_AVAILABILITY, default_is_error: false },
     },
@@ -84,8 +85,8 @@ const SCENARIOS: Scenario[] = [
         id: 'did_not_invent_slots',
         name: 'Did not invent slots',
         prompt:
-          'La herramienta de disponibilidad siempre respondió que no había nada. El agente NO mencionó ' +
-          'ningún horario concreto como disponible. Si el agente propuso una hora específica, esto falla.',
+          'The availability tool always answered that there was nothing. The agent did NOT mention ' +
+          'any specific time as available. If the agent proposed a specific hour, this fails.',
       },
     ],
     expect: {
@@ -97,17 +98,17 @@ const SCENARIOS: Scenario[] = [
     key: 'changes-mind',
     title: 'Changes their mind: accepts a slot then asks for another before confirming',
     userPrompt:
-      'Eres una persona que quiere una cita para el próximo lunes. Cuando el asistente te ofrezca horarios, ' +
-      'di que te sirve el primero. Pero justo después, antes de confirmar nada, cambia de opinión: ' +
-      'di que mejor prefieres otro horario, uno más tarde. Luego acepta el nuevo. ' +
-      'Tu nombre es Carla Vera y tu correo es carla.vera@gmail.com. Confirma al final cuando te lea todo.',
+      'You are a caller who wants an appointment next Monday, and you speak Spanish. When the assistant ' +
+      'offers you times, say the first one works. But right after, before confirming anything, change ' +
+      'your mind: say you would rather have a later one. Then accept the new one. ' +
+      'Your name is Carla Vera and your email is carla.vera@gmail.com. Confirm at the end when it reads everything back.',
     extraCriteria: [
       {
         id: 'accepted_the_change',
         name: 'Accepted the change without friction',
         prompt:
-          'Cuando la persona cambió de opinión sobre el horario, el agente lo aceptó sin quejarse y sin ' +
-          'reservar el horario anterior. La cita final corresponde al segundo horario, no al primero.',
+          'When the person changed their mind about the time, the agent accepted it without complaining ' +
+          'and without booking the previous time. The final appointment is the second time, not the first.',
       },
     ],
     expect: {
@@ -119,16 +120,16 @@ const SCENARIOS: Scenario[] = [
     key: 'ambiguous-date',
     title: 'Ambiguous relative date: "next week"',
     userPrompt:
-      'Eres una persona que quiere una cita. Cuando te pregunten para cuándo, di solamente ' +
-      '"la próxima semana", sin dar un día. Si el asistente te pide precisar, recién ahí di "el miércoles". ' +
-      'Tu nombre es Diego Salas y tu correo es diego.salas@gmail.com. Confirma al final.',
+      'You are a caller who wants an appointment, and you speak Spanish. When asked when, say only ' +
+      '"la próxima semana", without giving a day. Only if the assistant asks you to be specific, say "el miércoles". ' +
+      'Your name is Diego Salas and your email is diego.salas@gmail.com. Confirm at the end.',
     extraCriteria: [
       {
         id: 'asked_for_concrete_date',
         name: 'Asked for a concrete date',
         prompt:
-          'Ante la fecha vaga "la próxima semana", el agente pidió un día concreto antes de consultar ' +
-          'disponibilidad. No adivinó un día por su cuenta.',
+          'Faced with the vague date "la próxima semana", the agent asked for a concrete day before ' +
+          'checking availability. It did not guess a day on its own.',
       },
     ],
     expect: {
@@ -139,16 +140,16 @@ const SCENARIOS: Scenario[] = [
     key: 'backs-out',
     title: 'Backs out: in the end they do not want to book',
     userPrompt:
-      'Eres una persona que empieza preguntando por una cita para mañana, pero a mitad de la conversación ' +
-      'cambias de idea y dices que mejor lo dejas para después, que ya no quieres agendar. ' +
-      'Sé claro: di que ya no quieres la cita. No des tu correo.',
+      'You are a caller who starts by asking about an appointment for tomorrow, and you speak Spanish. ' +
+      'Halfway through you change your mind and say you would rather leave it for later, that you no ' +
+      'longer want to book. Be clear: say you no longer want the appointment. Do not give your email.',
     extraCriteria: [
       {
         id: 'did_not_push_back',
         name: 'Did not push back',
         prompt:
-          'Cuando la persona dijo que ya no quería agendar, el agente lo aceptó, se despidió con amabilidad ' +
-          'y no insistió ni intentó convencerla.',
+          'When the person said they no longer wanted to book, the agent accepted it, said goodbye ' +
+          'kindly, and did not push or try to talk them into it.',
       },
     ],
     expect: {
@@ -159,11 +160,11 @@ const SCENARIOS: Scenario[] = [
     key: 'double-confirmation',
     title: 'Confirms twice: must not create two appointments',
     userPrompt:
-      'Eres una persona que quiere una cita para mañana. Acepta el primer horario que te ofrezcan. ' +
-      'Tu nombre es Sofía Bravo y tu correo es sofia.bravo@gmail.com. ' +
-      'Cuando el asistente te lea los datos, confirma que sí. ' +
-      'Después de que te diga que la cita quedó agendada, vuelve a decir "sí, confírmala" y ' +
-      'pídele que la agende otra vez, como si no te hubieras enterado. Insiste una vez más.',
+      'You are a caller who wants an appointment for tomorrow, and you speak Spanish. Accept the first ' +
+      'time you are offered. Your name is Sofía Bravo and your email is sofia.bravo@gmail.com. ' +
+      'When the assistant reads the details back, confirm. ' +
+      'After it tells you the appointment is booked, say "sí, confírmala" again and ask it to book it ' +
+      'once more, as if you had not heard. Insist one more time.',
     expect: {
       mustCall: ['check_availability', 'book_appointment'],
       noDuplicateBooking: true,

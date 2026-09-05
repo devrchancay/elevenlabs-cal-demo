@@ -305,12 +305,20 @@ Fastify rather than NestJS: less boilerplate for an MVP this size.
 **Code is English**: identifiers, comments, test names, logs, internal errors,
 and all documentation.
 
-**Spanish is reserved for what reaches a person**: the sentences the agent reads
-out loud (`spokenLabel`, `spokenSummary`, `spokenConfirmation`), the system
-prompt, and the visible copy of the landing page.
+**Spanish is reserved for the words a caller actually hears**: the sentences the
+agent reads out loud (`spokenLabel`, `spokenSummary`, `spokenConfirmation`), the
+`first_message`, the soft-timeout line, the ASR keywords, and the visible copy of
+the landing page.
 
-The reasoning is practical: those Spanish strings are product data, not code. If
-only a developer ever sees a string, it is written in English.
+Everything that only instructs or judges the system is English, including the
+system prompt, the tool descriptions, the evaluation criteria and the simulated
+caller scripts. Those are read by a model, not spoken to a person; the prompt
+says explicitly that the agent replies in Spanish, and the few phrases it must
+say word for word — «¿Está todo correcto?» among them — are quoted in Spanish
+inside the English text.
+
+The reasoning is practical: the Spanish strings are product data, not code. If
+only a developer or a model ever sees a string, it is written in English.
 
 ---
 

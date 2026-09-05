@@ -87,8 +87,9 @@ than something the model has to remember.
 
 ## The system prompt
 
-Full text in `agent/agent_configs/appointment_scheduler.json`. It is written in Spanish
-because it shapes speech reaching a person. The structure:
+Full text in `agent/agent_configs/appointment_scheduler.json`. It is written in
+English, and it tells the agent to speak Spanish; the handful of phrases the
+agent has to say word for word are quoted in Spanish inside it. The structure:
 
 1. **Role and register.** Assistant for a business in Ecuador, neutral Latin
    American Spanish, informal *tú*, one job only: booking 30-minute
